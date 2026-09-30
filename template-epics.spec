@@ -1,5 +1,5 @@
 # EPICS support module / IOC template for the gemini-rtsw-ci pipeline.
-# To reuse: rename this file, change %define name, and set Version.
+# To reuse: rename this file, change the name define below, and set Version.
 
 %define _prefix  /gem_base/epics/support
 %define name     template-epics
@@ -10,6 +10,7 @@
 %global _enable_debug_package 0
 %global debug_package %{nil}
 %global __os_install_post /usr/lib/rpm/brp-compress %{nil}
+%global _build_id_links none
 
 Summary:  Template EPICS module for the gemini-rtsw-ci pipeline
 Name:     %{name}
@@ -20,8 +21,8 @@ Source0:  %{name}-%{version}.tar.gz
 ExclusiveArch: %{arch}
 Prefix:   %{_prefix}
 
-# Pin every BuildRequires exactly, with %{?dist}. Add support modules the same
-# way, e.g.:  BuildRequires: geminiRec-devel = 4.1.13-3.git.5dcd2db%{?dist}
+# Pin every BuildRequires exactly, ending in the dist macro as below. Add support
+# modules the same way, e.g.  geminiRec-devel = 4.1.13-3.git.5dcd2db (plus dist)
 BuildRequires: epics-base-devel = 7.0.7-0.git.054b1d4%{?dist} re2c gemini-ade
 
 %description
@@ -38,6 +39,7 @@ make
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_prefix}/%{name}
 cp -r db lib include configure %{buildroot}%{_prefix}/%{name}
+rm -rf %{buildroot}%{_prefix}/%{name}/configure/O.*
 
 %files
 %{_prefix}/%{name}
