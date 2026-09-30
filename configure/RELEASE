@@ -1,0 +1,4 @@
+# Where the pipeline installs EPICS base (from epics-base-devel).
+# Add support modules here, and a matching BuildRequires in the spec:
+#   GEMREC = /gem_base/epics/support/geminiRec
+EPICS_BASE = /gem_base/epics/epics-base

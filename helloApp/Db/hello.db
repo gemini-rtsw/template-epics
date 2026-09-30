@@ -1,0 +1,3 @@
+record(stringin, "$(P)hello") {
+    field(VAL, "hello from template-epics")
+}

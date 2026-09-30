@@ -1,0 +1,5 @@
+CHECK_RELEASE = YES
+
+# Host-only build. For VME IOCs / RTEMS support modules, list the targets here:
+#   CROSS_COMPILER_TARGET_ARCHS = RTEMS-mvme2700 RTEMS-beatnik
+CROSS_COMPILER_TARGET_ARCHS =
