@@ -10,25 +10,33 @@ Everything else is ordinary EPICS source.
 
 ## Use it for a new package
 
-1. On GitHub, click **Use this template** → **Create a new repository**, then clone it
-   with its submodule:
+1. On GitHub, click **Use this template** → **Create a new repository**.
+2. Within a minute, the **Template cleanup** workflow (Actions tab) renames everything
+   called `template-epics` after your repo — file names, the spec's name, and their
+   contents — and commits it as `Rename template-epics to <repo>`. Clone after that,
+   or `git pull` if you already had:
    ```bash
    git clone --recurse-submodules git@github.com:gemini-rtsw/<name>.git
    ```
    The `gemini-rtsw-ci` submodule comes with the copy; there is nothing to add.
-2. Grant the new repo **Write** access to `rpm-repo`: org **Packages** → `rpm-repo` →
+3. Grant the new repo **Write** access to `rpm-repo`: org **Packages** → `rpm-repo` →
    **Package settings** → **Manage Actions access** → add the repo, role **Write**.
-   This can only be done once the repo exists, so the build GitHub starts on the new
-   repo's first commit fails here, harmlessly.
-3. **Rename before you push to `main`**: `template-epics` in the spec file name and in
-   `%define name` (which is also the install directory under `/gem_base/epics/support`).
-   The file name does not matter to CI -- it builds whatever `*.spec` it finds -- but
-   `%define name` does: an unrenamed copy publishes a second `template-epics` RPM into
-   the shared rpm-repo, where it competes with this template's own builds. Doing the
-   rename on a branch with a PR is safe, since PR builds publish nothing.
+   This can only be done once the repo exists, so the **Build** run GitHub starts on
+   the first commit fails at the rpm-repo push, harmlessly. **Do not re-run it** after
+   granting: it builds the template as it was before the rename, and would publish a
+   second `template-epics` RPM. Push a commit or open a PR instead.
 4. Replace `helloApp` with your own `*App` directory, and list it in the top `Makefile`.
 5. Add support modules to `configure/RELEASE`, each with a pinned
    `BuildRequires` in the spec.
+
+The RPM may be named differently from the repo (`hrwfs` for `hrwfs_dm`, say): change
+`Name:` in the spec, and rename the files named after it with it.
+
+**If the cleanup did not run** (an org that keeps `GITHUB_TOKEN` read-only, say), rename
+by hand before pushing to `main`: the spec file name and `%define name` (also the install directory under `/gem_base/epics/support`). CI finds the spec by `*.spec`, so its file
+name does not matter to the build, but `Name:` does — an unrenamed copy publishes a
+second `template-epics` RPM into the shared rpm-repo. Doing it in a PR is safe, since PR builds
+publish nothing.
 
 ## Build locally
 
